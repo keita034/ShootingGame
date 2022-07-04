@@ -17,13 +17,13 @@ public class Bullet : MonoBehaviour
         Vector3 pos = transform.position;
 
         //ã‚É‚Ü‚Á‚·‚®”ò‚Ô
-        pos.z += 0.05f;
+        pos.z += 0.5f;
 
         //’e‚ÌˆÚ“®
         transform.position = new Vector3(pos.x, pos.y, pos.z);
 
         //ˆê’è‹——£i‚ñ‚¾‚çÁ–Å‚·‚é
-        if(pos.z >= 20)
+        if(pos.z >= 15)
         {
             Destroy(this.gameObject);
         }

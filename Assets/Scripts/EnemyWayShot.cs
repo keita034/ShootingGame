@@ -2,24 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyForwardShot : MonoBehaviour
+public class EnemyWayShot : MonoBehaviour
 {
     //プレイヤー
     private GameObject player;
     //弾のゲームオブジェクトを入れる
     public GameObject bullet;
+    //1回で打ち出す弾の数を決める
+    public int bulletWayNum = 3;
+    //打ち出す弾の間隔を調整する
+    public float bulletWaySpace = 30;
     //打ち出す間隔を決める
     public float time = 1;
     //最初に打ち出すまでの時間を決める
     public float delayTime = 1;
     //現在のタイマー時間
-    float nowtime = 0;
+    float nowTime = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         //タイマーを初期化
-        nowtime = delayTime;
+        nowTime = delayTime;
     }
 
     // Update is called once per frame
@@ -28,24 +32,35 @@ public class EnemyForwardShot : MonoBehaviour
         //もしプレイヤーの情報が入ってなかったら
         if (player == null)
         {
-            //プロジェクトのplayerを探して情報を取得する
+            //プロジェクトのPlayerを探して情報を取得する
             player = GameObject.FindGameObjectWithTag("Player");
         }
-
         //タイマーを減らす
-        nowtime -= Time.deltaTime;
-
-        //もしタイマーが下になったら
-        if (nowtime <= 0)
+        if (transform.position.z <= 20)
         {
-            //弾を生成
-            createShot0bject(-transform.localEulerAngles.y);
-            //タイマーを初期化
-            nowtime = time;
+            nowTime -= Time.deltaTime;
         }
+        //もしタイマーが0以下になったら
+        if (nowTime <= 0)
+        {
+            // 角度調整用の変数
+            float bulletWaySpaceSplit = 0;
+            //一回で発射する弾数分だけループする
+            for (int i = 0; i < bulletWayNum; i++)
+            {
+                //弾を生成
+                CreateShot0bject(bulletWaySpace - bulletWaySpaceSplit + transform.localEulerAngles.y);
+                //角度を調整する
+                bulletWaySpaceSplit += (bulletWaySpace / (bulletWayNum - 1)) * 2;
+            }
+
+            //タイマーを初期化
+            nowTime = time;
+        }
+
     }
 
-    private void createShot0bject(float axis)
+    private void CreateShot0bject(float axis)
     {
         //ベクトルを取得
         var direction = player.transform.position - transform.position;

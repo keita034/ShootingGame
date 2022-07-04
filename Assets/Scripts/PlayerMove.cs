@@ -12,9 +12,12 @@ public class PlayerMove : MonoBehaviour
     private float Left, Right, Top, Bottom;
 
     public float speed = 0.01f;
+    private float speedTmp = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
+        speedTmp = speed;
+
         //カメラとプレイヤーの距離を測る(表示画面の四隅を設定するために必要)
         var distance = Vector3.Distance(Camera.main.transform.position, transform.position);
 
@@ -59,6 +62,15 @@ public class PlayerMove : MonoBehaviour
     {
         //プレイヤーのワールド座標を取得
         Vector3 pos = transform.position;
+
+        if(Input.GetKey(KeyCode.RightShift))
+        {
+            speed = speedTmp/2;
+        }
+       else
+        {
+            speed = speedTmp;
+        }
 
         //右矢印キーが入力された時
         if (Input.GetKey(KeyCode.RightArrow))

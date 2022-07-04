@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GManager : MonoBehaviour
     private GameObject[] enemy;
     //パネルを登録する
     public GameObject panel;
+    public GameObject panel1;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,13 @@ public class GManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            string activeSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(activeSceneName);
+        }
+
         //シーンに存在しているEnemyタグを持っているオブジェクト
         enemy = GameObject.FindGameObjectsWithTag("Enemy");
         //シーンに1匹もEnemyがいなくなったら
@@ -26,6 +35,7 @@ public class GManager : MonoBehaviour
         {
             //パネルを表示させる
             panel.SetActive(true);
+            panel1.SetActive(true);
         }
     }
 }
